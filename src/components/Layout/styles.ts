@@ -4,15 +4,15 @@ import { LogOut } from "@styled-icons/entypo/LogOut"
 import { Menu } from "@styled-icons/boxicons-regular/Menu";
 
 type Props = {
-  menuOpen: number
+  menu: boolean
 }
 
-export const SideBar = styled.div<Props>`
+export const Sidebar = styled.div<Props>`
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  width: ${(props) => (props.menuOpen ? '240px' : '70px')};
+  width: ${(props) => (props.menu ? '240px' : '70px')};
   padding: 6px 14px;
   transition: all 0.4s ease;
 
@@ -34,37 +34,36 @@ export const IconLogo = styled(ReactLogo)<Props>`
   width: 3rem;
   height: 3rem;
   margin: 0 0.5rem;
-  display: ${(props) => (props.menuOpen ? "flex" : "none")};
+  display: ${(props) => (props.menu ? "flex" : "none")};
 `;
 
 export const LogoName = styled.div<Props>`
   font-size: 2rem;
   font-weight: 400;
-  display: ${(props) => (props.menuOpen ? "flex" : "none")};
+  display: ${(props) => (props.menu ? "flex" : "none")};
 `;
 
 export const IconMenu = styled(Menu)<Props>`
   position: absolute;
-  right: ${(props) => (props.menuOpen ? "0.5rem" : "2rem")};
+  right: ${(props) => (props.menu ? "0.5rem" : "2rem")};
   width: 3rem;
   height: 3rem;
   cursor: pointer;
 `;
 
-export const List = styled.ul`
+export const List = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 5px;
 `;
 
-export const Item = styled.li`
+export const Item = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 50px;
   width: 100%;
-  list-style: none;
   line-height: 50px;
   transition: all 0.5s ease;
   border-radius: 4px;
@@ -74,7 +73,7 @@ export const Item = styled.li`
 
   &:hover {
     background: var(--white);
-    > a {
+    > div {
       > span {
         color: var(--primary);
       }
@@ -106,7 +105,7 @@ export const ProfileDetails = styled.div<Props>`
   align-items: center;
   justify-content: center;
   margin: 0 4px;
-  display: ${(props) => (props.menuOpen ? "flex" : "none")};
+  display: ${(props) => (props.menu ? "flex" : "none")};
 
   > img {
     width: 30px;
@@ -125,10 +124,19 @@ export const IconLogout = styled(LogOut)<Props>`
   width: 3rem;
   height: 3rem;
   color: #fff;
-  margin-left: ${(props) => (props.menuOpen ? "10px" : "14px")};
+  margin-left: ${(props) => (props.menu ? "10px" : "14px")};
   cursor: pointer;
 
   &:hover {
     color: #615ba4;
   }
 `;
+
+export const Content = styled.div<Props>`
+  position: absolute;
+  width: ${(props) => (props.menu ? "calc(100% - 240px)" : "calc(100% - 70px)")};
+  left: ${(props) => (props.menu ? "240px" : "70px")};
+  font-size: 1.6rem;
+  transition: all 0.4s ease;
+  padding: 10px;
+`

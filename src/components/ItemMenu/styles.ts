@@ -4,10 +4,10 @@ import { Settings } from "@styled-icons/evaicons-solid/Settings"
 import { Inventory } from "@styled-icons/material/Inventory"
 
 type Props = {
-  menuOpen: number
+  menu: boolean
 }
 
-export const Container = styled.a<Props>`
+export const Container = styled.div<Props>`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -18,7 +18,7 @@ export const Container = styled.a<Props>`
   > span {
     font-size: 1.6rem;
     color: #fff;
-    display: ${(props) => (props.menuOpen ? "block" : "none")};;
+    display: ${(props) => (props.menu ? "block" : "none")};;
   }
 `;
 

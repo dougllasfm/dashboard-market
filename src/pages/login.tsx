@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { Container, Content, Input } from "../styles/pages/login";
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   return (
     <Container>
       <Content>
@@ -14,4 +14,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Login;

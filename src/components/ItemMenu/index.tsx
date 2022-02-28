@@ -1,28 +1,37 @@
-import { Container, IconDashboard, IconSettings, IconInventory } from "./styles";
+import Link from 'next/link'
+
+import {
+  Container,
+  IconDashboard,
+  IconSettings,
+  IconInventory,
+} from "./styles";
 
 type Props = {
-  menuOpen: number
-  title: string
-  icon: number
-}
+  link: string
+  menu: boolean;
+  title: string;
+  icon: number;
+};
 
-function ItemMenu({menuOpen, title, icon} : Props) {
-
+function ItemMenu({ link, menu, title, icon }: Props) {
   function Icon() {
     if (icon == 1) {
-      return <IconDashboard />
+      return <IconDashboard />;
     } else if (icon == 2) {
-      return <IconInventory />
+      return <IconInventory />;
     } else {
-      return <IconSettings />
+      return <IconSettings />;
     }
   }
 
   return (
-    <Container menuOpen={menuOpen} href="">
-      <Icon />
-      <span>{title}</span>
-    </Container>
+    <Link href={link}>
+      <Container menu={menu}>
+        <Icon />
+        <span>{title}</span>
+      </Container>
+    </Link>
   );
 }
 

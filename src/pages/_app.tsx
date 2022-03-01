@@ -1,12 +1,16 @@
 import GlobalStyles from "../styles/GlobalStyles";
 import type { AppProps } from "next/app";
-import "../services/firebase"
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "../services/queryClient";
+import "../services/firebase";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Component {...pageProps} />
-      <GlobalStyles />
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        <GlobalStyles />
+      </QueryClientProvider>
     </>
   );
 }

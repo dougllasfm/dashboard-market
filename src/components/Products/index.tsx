@@ -1,7 +1,33 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { useQuery } from "react-query";
+
 import { Container, Icon, Table } from "./styles";
 
+type ProductProps = {
+  name: string;
+  price: string;
+  quantity: string;
+};
+
 function Products() {
+  const db = getFirestore();
+  const { data } = useQuery<ProductProps[]>(
+    "product",
+    async () => {
+      let array: ProductProps[] = [];
+      const query = await getDocs(collection(db, "products"));
+      query.forEach((doc) => {
+        array.push(doc.data() as ProductProps);
+      });
+      return array;
+    },
+    {
+      staleTime: 60 * 60 * 60, // 1 minute
+    }
+  );
+
   return (
     <Container>
       <h1>Produtos</h1>
@@ -17,21 +43,15 @@ function Products() {
           <th>Preço</th>
           <th>Quantidade</th>
         </tr>
-        <tr>
-          <td>Arroz</td>
-          <td>R$ 30,00</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td>Feijão</td>
-          <td>R$ 30,00</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>Tomate</td>
-          <td>R$ 30,00</td>
-          <td>40</td>
-        </tr>
+        {data?.map((item) => {
+          return (
+            <tr>
+              <td>{item.name}</td>
+              <td>R$ {item.price}</td>
+              <td>{item.quantity}</td>
+            </tr>
+          );
+        })}
       </Table>
     </Container>
   );

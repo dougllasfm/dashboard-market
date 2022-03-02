@@ -1,75 +1,76 @@
-import { useState } from "react";
-import { Form, FormControl } from "./styles";
+import Router from "next/router";
 import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, Input } from "./styles";
+
+type FormData = {
+  nameProduct: string
+  quantity: string
+  price: string
+  weight: string
+  description: string
+}
 
 function FormProduct() {
-  const [nameProduct, setNameProduct] = useState("");
-  const [quantity, setQuantity] = useState("0");
-  const [price, setPrice] = useState("");
-  const [weight, setWeight] = useState("");
-  const [description, setDescription] = useState("");
+  const { register, handleSubmit } = useForm<FormData>();
+  
   const db = getFirestore();
 
-  async function submitForm() {
+  async function submitForm(data: FormData) {
     try {
-      const docRef = await addDoc(collection(db, "products"), {
-        name: nameProduct,
-        quantity: quantity,
-        price: price,
-        weight: weight,
-        description: description,
+      await addDoc(collection(db, "products"), {
+        name: data.nameProduct,
+        quantity: data.quantity,
+        price: data.price,
+        weight: data.weight,
+        description: data.description,
       });
-      console.log("Document written with ID: ", docRef.id);
-    } catch(error) {
-      console.log("ERRO: "+error)
+      Router.push("/products")
+    } catch (error) {
+      console.log("ERRO: " + error);
     }
   }
 
   return (
-    <Form onSubmit={submitForm}>
+    <Form>
       <FormControl>
-        <input
+        <Input
+          small={false}
           type="text"
           placeholder="Nome do produto"
-          onChange={(event) => setNameProduct(event.target.value)}
-          value={nameProduct}
+          {...register("nameProduct")}
         />
-        <input
-          className="input-number"
+        <Input
+          small
           type="number"
           placeholder="Quantidade"
           min={0}
-          onChange={(event) => setQuantity(event.target.value)}
-          value={quantity}
+          {...register("quantity")}
         />
       </FormControl>
       <FormControl>
-        <input
-          className="small"
+        <Input
+          small
           type="text"
           placeholder="Preço"
-          onChange={(event) => setPrice(event.target.value)}
-          value={price}
+          {...register("price")}
         />
-        <input
-          className="small"
+        <Input
+          small
           type="text"
           placeholder="Peso"
-          onChange={(event) => setWeight(event.target.value)}
-          value={weight}
+          {...register("weight")}
         />
       </FormControl>
       <FormControl>
         <textarea
           placeholder="Descrição do produto"
           rows={4}
-          cols={50}
-          onChange={(event) => setDescription(event.target.value)}
-          value={description}
+          {...register("description")}
         />
       </FormControl>
       <FormControl>
-        <button type="submit">Salvar</button>
+        <button onClick={handleSubmit(submitForm)} >Salvar</button>
       </FormControl>
     </Form>
   );

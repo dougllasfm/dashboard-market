@@ -38,6 +38,7 @@ export const Content = styled.div`
     outline: 0;
     border-radius: 3px;
     font-weight: bold;
+    cursor: pointer;
 
     &:hover {
       background: #c0bddb;

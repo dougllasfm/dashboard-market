@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type Input = {
+  small: boolean
+}
+
 export const Form = styled.form`
   margin-top: 20px;
   display: flex;
@@ -11,29 +15,9 @@ export const FormControl = styled.div`
   gap: 20px;
   margin: 10px 0;
 
-  > input {
-    padding: 8px;
-    width: 300px;
-    border-radius: 3px;
-    border: 1px solid var(--border);
-    outline: none;
-    height: 42px;
-
-    &:focus {
-      outline: 0.5px solid #0d0d0d;
-    }
-  }
-
-  .input-number {
-    width: 60px;
-  }
-
-  .small {
-    width: 100px;
-  }
-
   > textarea {
     padding: 8px;
+    width: 380px;
     border-radius: 3px;
     border: 1px solid var(--border);
     outline: none;
@@ -53,5 +37,18 @@ export const FormControl = styled.div`
     width: 100px;
     font-weight: bold;
     cursor: pointer;
+  }
+`;
+
+export const Input = styled.input<Input>`
+  padding: 8px;
+  width: ${(props) => props.small ? "80px" : "300px"};
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  outline: none;
+  height: 42px;
+
+  &:focus {
+    outline: 0.5px solid #0d0d0d;
   }
 `;

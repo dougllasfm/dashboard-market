@@ -23,16 +23,10 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   const auth = getAuth();
   const isAuthenticated = false;
 
-  useEffect(() => {
-    const { 'market.token' : token } = parseCookies()
-    if (token) {
-      Router.push("/dashboard");
-    }
-  }, [])
-
   async function signIn({ email, password }: SignInData) {
+    console.log("function")
     await signInWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
+      .then((userCredential) => {
         const user = userCredential.user;
         setCookie(undefined, "market.token", user.accessToken, {
           maxAge: 60 * 60, // 1 HOUR

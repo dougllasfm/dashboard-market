@@ -1,5 +1,6 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import { parseCookies } from "nookies";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthContext";
@@ -16,8 +17,8 @@ const Login: NextPage = () => {
 
   const { register, handleSubmit } = useForm<FormData>();
 
-  function handleLogin(data: FormData) {
-    signIn(data);
+  async function handleLogin(data: FormData) {
+    await signIn(data);
   }
 
   return (
@@ -39,6 +40,22 @@ const Login: NextPage = () => {
       </Container>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "market.token": token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 };
 
 export default Login;

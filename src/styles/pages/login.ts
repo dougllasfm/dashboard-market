@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: center;
 
   height: 100vh;
-  background: #fff;  
+  background: #272442;  
 `
 
 export const Content = styled.div`
@@ -16,7 +16,7 @@ export const Content = styled.div`
   align-items: center;
 
   height: 60%;
-  width: 35%;
+  width: 45%;
   background: var(--primary);
   box-shadow: 3px 3px 10px var(--primary);
   border-radius: 3px;
@@ -29,14 +29,20 @@ export const Content = styled.div`
   }
 
   > button {
-    margin-top: 5px;
-    background: var(--darkBlue);
-    color: #fff;
+    margin-top: 6px;
+    background: var(--white);
+    color: var(--primary);
     padding: 10px;
     width: 50%;
     border: 0;
     outline: 0;
     border-radius: 3px;
+    font-weight: bold;
+
+    &:hover {
+      background: #c0bddb;
+      transition: 0.2s linear;
+    }
   }
 `
 

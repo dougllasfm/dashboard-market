@@ -40,7 +40,7 @@ function Layout({ children }: LayoutProps) {
         </LogoContent>
         <List>
           <Item>
-            <ItemMenu link="/" menu={menu} title="Dashboard" icon={1} />
+            <ItemMenu link="/config" menu={menu} title="Dashboard" icon={1} />
           </Item>
           <Item>
             <ItemMenu link="/products" menu={menu} title="Produtos" icon={2} />

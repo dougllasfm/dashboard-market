@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-import { useQuery } from "react-query";
 
 import Layout from "../../components/Layout";
 

@@ -1,11 +1,12 @@
-import { createContext, ReactNode, useEffect } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { setCookie, parseCookies } from "nookies";
+import { createContext, ReactNode } from "react";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  signIn: (data: SignInData) => Promise<void>
+  signIn: (data: SignInData) => Promise<void>;
+  logout: () => Promise<void>
 };
 
 type AuthContextProviderProps = {
@@ -24,7 +25,6 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   const isAuthenticated = false;
 
   async function signIn({ email, password }: SignInData) {
-    console.log("function")
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -40,8 +40,20 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       });
   }
 
+  async function logout() {
+    signOut(auth)
+      .then(() => {
+        console.log(auth.currentUser);
+        destroyCookie(null, "market.token");
+        Router.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   );

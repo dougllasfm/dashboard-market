@@ -4,7 +4,7 @@ import { LogOut } from "@styled-icons/entypo/LogOut"
 import { Menu } from "@styled-icons/boxicons-regular/Menu";
 
 type Props = {
-  menu: boolean
+  menu: boolean  
 }
 
 export const Sidebar = styled.div<Props>`
@@ -70,6 +70,10 @@ export const Item = styled.div`
   padding: 0 5px;
   margin: 5px 0;
   cursor: pointer;
+
+  &::selection {
+    background-color: var(--red);
+  }
 
   &:hover {
     background: var(--white);

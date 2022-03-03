@@ -5,6 +5,7 @@ import {
   IconDashboard,
   IconSettings,
   IconInventory,
+  IconOrders
 } from "./styles";
 
 type Props = {
@@ -20,8 +21,10 @@ function ItemMenu({ link, menu, title, icon }: Props) {
       return <IconDashboard />;
     } else if (icon == 2) {
       return <IconInventory />;
-    } else {
+    } else if (icon == 3) {
       return <IconSettings />;
+    } else {
+      return <IconOrders />
     }
   }
 

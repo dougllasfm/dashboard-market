@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
-import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard"
-import { Settings } from "@styled-icons/evaicons-solid/Settings"
-import { Inventory } from "@styled-icons/material/Inventory"
+import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard";
+import { Settings } from "@styled-icons/evaicons-solid/Settings";
+import { Inventory } from "@styled-icons/material/Inventory";
+import { Notepad } from "@styled-icons/boxicons-solid/Notepad";
 
 type Props = {
-  menu: boolean
-}
+  menu: boolean;
+};
 
 export const Container = styled.div<Props>`
   display: flex;
@@ -18,7 +19,7 @@ export const Container = styled.div<Props>`
   > span {
     font-size: 1.6rem;
     color: #fff;
-    display: ${(props) => (props.menu ? "block" : "none")};;
+    display: ${(props) => (props.menu ? "block" : "none")};
   }
 `;
 
@@ -28,7 +29,7 @@ const iconCss = css`
   margin-right: 12px;
   line-height: 50px;
   color: #fff;
-`
+`;
 
 export const IconDashboard = styled(Dashboard)`
   ${iconCss}
@@ -36,8 +37,12 @@ export const IconDashboard = styled(Dashboard)`
 
 export const IconSettings = styled(Settings)`
   ${iconCss}
-`
+`;
 
 export const IconInventory = styled(Inventory)`
   ${iconCss}
-`
+`;
+
+export const IconOrders = styled(Notepad)`
+  ${iconCss}
+`;

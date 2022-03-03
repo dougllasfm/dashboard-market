@@ -1,4 +1,5 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import ItemMenu from "../ItemMenu";
 
 import {
@@ -24,6 +25,11 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   const [menu, setMenu] = useState<boolean>(true);
+  const { logout } = useContext(AuthContext);
+
+  function signOut() {
+    logout();
+  }
 
   return (
     <>
@@ -40,13 +46,21 @@ function Layout({ children }: LayoutProps) {
         </LogoContent>
         <List>
           <Item>
-            <ItemMenu link="/config" menu={menu} title="Dashboard" icon={1} />
+            <ItemMenu link="/dashboard" menu={menu} title="Dashboard" icon={1} />
+          </Item>
+          <Item>
+            <ItemMenu link="/orders" menu={menu} title="Pedidos" icon={4} />
           </Item>
           <Item>
             <ItemMenu link="/products" menu={menu} title="Produtos" icon={2} />
           </Item>
           <Item>
-            <ItemMenu link="/config" menu={menu} title="Configurações" icon={3} />
+            <ItemMenu
+              link="/config"
+              menu={menu}
+              title="Configurações"
+              icon={3}
+            />
           </Item>
         </List>
         <ProfileContent>
@@ -55,7 +69,7 @@ function Layout({ children }: LayoutProps) {
               <img src="/profile.jpeg" alt="" />
               <Name>Douglas munaro</Name>
             </ProfileDetails>
-            <IconLogout menu={menu} />
+            <IconLogout onClick={signOut} menu={menu} />
           </Profile>
         </ProfileContent>
       </Sidebar>

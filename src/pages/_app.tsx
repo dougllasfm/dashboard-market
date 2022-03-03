@@ -1,3 +1,5 @@
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 import GlobalStyles from "../styles/GlobalStyles";
 import type { AppProps } from "next/app";
 import { QueryClientProvider } from "react-query";

@@ -15,7 +15,7 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 60%;
+  height: 70%;
   width: 45%;
   background: var(--primary);
   box-shadow: 3px 3px 10px var(--primary);
@@ -23,7 +23,7 @@ export const Content = styled.div`
 
   > h1 {
     font-size: 2.4rem;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     color: #fff;
     font-weight: bold;
   }
@@ -47,9 +47,9 @@ export const Content = styled.div`
   }
 
   > a {
-    margin-top: 40px;
+    margin-top: 30px;
     color: var(--gray);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     transition: 0.3s linear;
 
     &:hover {

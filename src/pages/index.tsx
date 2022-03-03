@@ -4,6 +4,7 @@ import { parseCookies } from "nookies";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthContext";
+import Link from "next/link"
 
 import { Container, Content, Input } from "../styles/pages/login";
 
@@ -36,6 +37,7 @@ const Login: NextPage = () => {
             {...register("password")}
           />
           <button onClick={handleSubmit(handleLogin)}>Entrar</button>
+          <Link href="/signin">Criar conta</Link>
         </Content>
       </Container>
     </>

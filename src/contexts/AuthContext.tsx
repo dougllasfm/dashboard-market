@@ -1,12 +1,18 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 
+type Company = {
+  nameCompany: string
+  addressCompany: string
+}
+
 type AuthContextType = {
-  isAuthenticated: boolean;
   signIn: (data: SignInData) => Promise<void>;
   logout: () => Promise<void>
+  companyData: (data: Company) => Promise<void>
+  company: Company | undefined
 };
 
 type AuthContextProviderProps = {
@@ -21,9 +27,9 @@ type SignInData = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: AuthContextProviderProps) {
-  const auth = getAuth();
-  const isAuthenticated = false;
+  const [company, setCompany] = useState<Company>()
 
+  const auth = getAuth();
   async function signIn({ email, password }: SignInData) {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -32,7 +38,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
           maxAge: 60 * 60, // 1 HOUR
         });
 
-        Router.push("/");
+        Router.push("/dashboard");
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -52,8 +58,12 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       });
   }
 
+  async function companyData({ nameCompany, addressCompany} : Company) {
+    setCompany({nameCompany, addressCompany})
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, logout }}>
+    <AuthContext.Provider value={{ signIn, logout, company, companyData }}>
       {children}
     </AuthContext.Provider>
   );

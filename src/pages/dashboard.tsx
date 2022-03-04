@@ -69,7 +69,7 @@ export default Dashboard;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "market.token": token } = parseCookies(ctx);
-
+  
   if (!token) {
     return {
       redirect: {
@@ -79,6 +79,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
   return {
-    props: {},
-  };
+    props: {}
+  }
 };

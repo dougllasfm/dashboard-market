@@ -1,14 +1,14 @@
 import { doc, setDoc, getFirestore } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../contexts/AuthContext";
+
 import {
   Container,
   Form,
   FormControl,
   FormControlHours,
   Input,
-  Notification
+  Notification,
 } from "./styles";
 
 type FormData = {
@@ -22,14 +22,13 @@ type FormData = {
 
 function ConfigCompany() {
   const [concluded, setConcluded] = useState<boolean>(false);
-  const { company } = useContext(AuthContext)
   const { register, handleSubmit, resetField } = useForm<FormData>();
   const db = getFirestore();
 
   async function updateHour(data: FormData) {
     try {
       await setDoc(
-        doc(db, "companys", "id-" + company?.nameCompany.replaceAll(/ /g, "")),
+        doc(db, "companys", "id-" + data.nameCompany.replaceAll(/ /g, "")),
         {
           nameCompany: data.nameCompany,
           addressCompany: data.addressCompany,
@@ -39,10 +38,10 @@ function ConfigCompany() {
           hourFinal: data.hourFinal,
         }
       );
-      resetField("nameCompany")
-      resetField("addressCompany")
-      resetField("buyMinimum")
-      resetField("taxMinimum")
+      resetField("nameCompany");
+      resetField("addressCompany");
+      resetField("buyMinimum");
+      resetField("taxMinimum");
       setConcluded(true);
     } catch (error) {
       console.log("ERRO: " + error);
@@ -56,7 +55,7 @@ function ConfigCompany() {
         <FormControl>
           <input
             type="text"
-            placeholder="Nome da empresa"
+            placeholder={company?.nameCompany}
             {...register("nameCompany")}
           />
           <input
@@ -89,12 +88,11 @@ function ConfigCompany() {
         </FormControlHours>
         <button type="submit">Salvar</button>
       </Form>
-      { concluded &&
+      {concluded && (
         <Notification>
-        <p>Dados atualizados com sucesso!</p>
-      </Notification>
-      }
-      
+          <p>Dados atualizados com sucesso!</p>
+        </Notification>
+      )}
     </Container>
   );
 }

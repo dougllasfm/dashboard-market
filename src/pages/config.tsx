@@ -1,4 +1,5 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
+import { parseCookies } from "nookies";
 import ConfigCompany from "../components/ConfigCompany";
 import Layout from "../components/Layout";
 
@@ -10,5 +11,22 @@ const Config: NextPage = () => {
     </Layout>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "market.token": token } = parseCookies(ctx);
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {}
+  }
+};
+
 
 export default Config;

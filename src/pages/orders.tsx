@@ -1,4 +1,6 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { parseCookies } from "nookies";
 import Layout from "../components/Layout";
 
 import { Container, Table } from "../styles/pages/orders";
@@ -34,6 +36,22 @@ const Config = () => {
       </Layout>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "market.token": token } = parseCookies(ctx);
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {}
+  }
 };
 
 

@@ -1,18 +1,23 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 
 type Company = {
-  nameCompany: string
-  addressCompany: string
-}
+  email: string;
+};
 
 type AuthContextType = {
   signIn: (data: SignInData) => Promise<void>;
-  logout: () => Promise<void>
-  companyData: (data: Company) => Promise<void>
-  company: Company | undefined
+  logout: () => Promise<void>;
+  dataCompany: (data: Company) => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -27,9 +32,8 @@ type SignInData = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: AuthContextProviderProps) {
-  const [company, setCompany] = useState<Company>()
-
   const auth = getAuth();
+
   async function signIn({ email, password }: SignInData) {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -42,6 +46,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       })
       .catch((error) => {
         const errorMessage = error.message;
+        console.log("AQUII");
         console.log(errorMessage);
       });
   }
@@ -58,12 +63,20 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       });
   }
 
-  async function companyData({ nameCompany, addressCompany} : Company) {
-    setCompany({nameCompany, addressCompany})
+  async function dataCompany({ email }: Company) {
+    const db = getFirestore();
+    const companyRef = collection(db, "companys");
+    const q = query(companyRef, where("email", "==", email));
+    const result = await getDocs(q);
+    result.forEach((doc) => {
+      setCookie(undefined, "market.email", doc.data().email, {
+        maxAge: 60 * 60, // 1 HOUR
+      });
+    });
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, logout, company, companyData }}>
+    <AuthContext.Provider value={{ signIn, logout, dataCompany }}>
       {children}
     </AuthContext.Provider>
   );

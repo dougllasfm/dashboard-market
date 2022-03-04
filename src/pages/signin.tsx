@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -19,8 +17,6 @@ type FormData = {
 
 const signin = () => {
   const { register, handleSubmit } = useForm<FormData>();
-  const { companyData } = useContext(AuthContext);
-
   const db = getFirestore();
   const auth = getAuth();
 
@@ -39,10 +35,6 @@ const signin = () => {
               addressCompany: data.addressCompany,
             }
           );
-          companyData({
-            nameCompany: data.nameCompany,
-            addressCompany: data.addressCompany,
-          });
           Router.push("/dashboard");
         })
         .catch((error) => {
@@ -58,22 +50,30 @@ const signin = () => {
     <Container>
       <Content>
         <h1>Criar conta da empresa</h1>
-        <Input placeholder="Email" type="text" {...register("email")} />
-        <Input placeholder="Senha" type="password" {...register("password")} />
+        <Input
+          placeholder="Email"
+          type="text"
+          {...(register("email"), { required: true })}
+        />
+        <Input
+          placeholder="Senha"
+          type="password"
+          {...(register("password"), { required: true })}
+        />
         <Input
           placeholder="Nome da empresa"
           type="text"
-          {...register("nameCompany")}
+          {...(register("nameCompany"), { required: true })}
         />
         <Input
           placeholder="Endereço"
           type="text"
-          {...register("addressCompany")}
+          {...(register("addressCompany"), { required: true })}
         />
         <Input
           placeholder="Chave de acesso fornecida"
           type="text"
-          {...register("keyAcess")}
+          {...(register("keyAcess"), { required: true })}
         />
         <button onClick={handleSubmit(handleSignIn)}>Criar conta</button>
         <Link href="/">Já tenho uma conta</Link>

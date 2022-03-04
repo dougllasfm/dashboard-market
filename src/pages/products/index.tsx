@@ -1,10 +1,12 @@
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
+import useAuth from "../../hooks/useAuth";
 
 import Layout from "../../components/Layout";
 
 import { Container, Icon, Table } from "../../styles/pages/products";
+import { parseCookies } from "nookies";
 
 type ProductProps = {
   name: string;
@@ -49,6 +51,17 @@ const Products = ({ data }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const { "market.token": token } = parseCookies();
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const db = getFirestore();
   let data: ProductProps[] = [];
   async function getDatas() {
@@ -58,8 +71,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     });
     return data;
   }
-  data.push(JSON.stringify(await getDatas()))
-  data.pop()
+  data.push(JSON.stringify(await getDatas()));
+  data.pop();
   return {
     props: { data },
   };

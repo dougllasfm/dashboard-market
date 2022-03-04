@@ -1,6 +1,7 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Layout from "../../components/Layout"
 import FormProduct from "../../components/FormProduct"
+import { parseCookies } from "nookies";
 
 const newProduct: NextPage = () => {
   return (
@@ -9,6 +10,22 @@ const newProduct: NextPage = () => {
       <FormProduct />
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "market.token": token } = parseCookies(ctx);
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {}
+  }
 };
 
 export default newProduct;

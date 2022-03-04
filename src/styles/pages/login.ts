@@ -6,15 +6,14 @@ export const Container = styled.div`
   align-items: center;
 
   height: 100vh;
-  background: #272442;  
-`
+  background: #272442;
+`;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   height: 60%;
   width: 45%;
   background: var(--primary);
@@ -27,6 +26,25 @@ export const Content = styled.div`
     color: #fff;
     font-weight: bold;
   }
+
+  > a {
+    margin-top: 40px;
+    color: var(--gray);
+    font-size: 1.5rem;
+    transition: 0.3s linear;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 
   > button {
     margin-top: 6px;
@@ -45,18 +63,7 @@ export const Content = styled.div`
       transition: 0.2s linear;
     }
   }
-
-  > a {
-    margin-top: 40px;
-    color: var(--gray);
-    font-size: 1.5rem;
-    transition: 0.3s linear;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-`
+`;
 
 export const Input = styled.input`
   border: 0;
@@ -66,4 +73,4 @@ export const Input = styled.input`
   width: 50%;
   color: #000;
   border-radius: 3px;
-`
+`;

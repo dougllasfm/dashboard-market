@@ -17,7 +17,7 @@ type Company = {
 type AuthContextType = {
   signIn: (data: SignInData) => Promise<void>;
   logout: () => Promise<void>;
-  dataCompany: (data: Company) => Promise<void>;
+  dataCompany: (data: Company) => void;
 };
 
 type AuthContextProviderProps = {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        setCookie(undefined, "market.token", user.accessToken, {
+        setCookie(undefined, "market.token", user.uid, {
           maxAge: 60 * 60, // 1 HOUR
         });
 
@@ -46,7 +46,6 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        console.log("AQUII");
         console.log(errorMessage);
       });
   }
@@ -54,8 +53,8 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   async function logout() {
     signOut(auth)
       .then(() => {
-        console.log(auth.currentUser);
         destroyCookie(null, "market.token");
+        destroyCookie(null, "market.email")
         Router.push("/");
       })
       .catch((error) => {

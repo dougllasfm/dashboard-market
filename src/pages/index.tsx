@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthContext";
 import Link from "next/link";
 
-import { Container, Content, Input } from "../styles/pages/login";
+import { Container, Content, Form, Input } from "../styles/pages/login";
 
 type FormData = {
   email: string;
@@ -14,13 +14,17 @@ type FormData = {
 };
 
 const Login: NextPage = () => {
-  const { signIn, dataCompany} = useContext(AuthContext);
+  const { signIn, dataCompany } = useContext(AuthContext);
 
   const { register, handleSubmit } = useForm<FormData>();
 
   async function handleLogin(data: FormData) {
-    dataCompany({email: data.email})
-    await signIn(data);
+    try {
+      dataCompany({ email: data.email });
+      await signIn(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -31,17 +35,19 @@ const Login: NextPage = () => {
       <Container>
         <Content>
           <h1>Entre no sistema</h1>
-          <Input
-            placeholder="Email"
-            type="text"
-            {...(register("email"))}
-          />
-          <Input
-            placeholder="Senha"
-            type="password"
-            {...(register("password"))}
-          />
-          <button onClick={handleSubmit(handleLogin)}>Entrar</button>
+          <Form onSubmit={handleSubmit(handleLogin)}>
+            <Input
+              placeholder="Email"
+              type="text"
+              {...register("email", { required: true})}
+            />
+            <Input
+              placeholder="Senha"
+              type="password"
+              {...register("password", { required: true})}
+            />
+            <button type="submit">Entrar</button>
+          </Form>
           <Link href="/signin">Criar conta</Link>
         </Content>
       </Container>

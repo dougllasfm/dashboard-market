@@ -50,9 +50,8 @@ const Products = ({ data }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { "market.token": token } = parseCookies();
-
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "market.token": token } = parseCookies(ctx);
   if (!token) {
     return {
       redirect: {

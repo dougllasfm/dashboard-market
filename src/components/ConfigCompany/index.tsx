@@ -1,5 +1,14 @@
-import { doc, setDoc, getFirestore } from "firebase/firestore";
-import { useState } from "react";
+import {
+  doc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  getFirestore
+} from "firebase/firestore";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -22,11 +31,27 @@ type FormData = {
 
 function ConfigCompany() {
   const [concluded, setConcluded] = useState<boolean>(false);
+  const [company, setCompany] = useState<FormData>()
   const { register, handleSubmit, resetField } = useForm<FormData>();
   const db = getFirestore();
 
+  useEffect(() => {
+    getDataCompany()
+  }, [])
+
+  async function getDataCompany() {
+    const { "market.email" : token } = parseCookies();
+    const companyRef = collection(db, "companys");
+    const q = query(companyRef, where("email", "==", token));
+    const result = await getDocs(q);
+    result.forEach((doc) => {
+      setCompany(doc.data() as FormData)
+    });
+  }
+
   async function updateHour(data: FormData) {
     try {
+      if (data.nameCompany != null) {
       await setDoc(
         doc(db, "companys", "id-" + data.nameCompany.replaceAll(/ /g, "")),
         {
@@ -43,9 +68,11 @@ function ConfigCompany() {
       resetField("buyMinimum");
       resetField("taxMinimum");
       setConcluded(true);
+      }
     } catch (error) {
       console.log("ERRO: " + error);
     }
+  
   }
 
   return (
@@ -56,24 +83,24 @@ function ConfigCompany() {
           <input
             type="text"
             placeholder={company?.nameCompany}
-            {...register("nameCompany")}
+            {...register("nameCompany", { required: true})}
           />
           <input
             type="text"
-            placeholder="Endereço"
-            {...register("addressCompany")}
+            placeholder={company?.addressCompany}
+            {...register("addressCompany", { required: true})}
           />
         </FormControl>
         <FormControl>
           <input
             type="text"
-            placeholder="Taxa de compra mínima"
-            {...register("buyMinimum")}
+            placeholder={company?.buyMinimum}
+            {...register("buyMinimum", { required: true})}
           />
           <input
             type="text"
-            placeholder="Taxa mínima de entrega"
-            {...register("taxMinimum")}
+            placeholder={company?.taxMinimum}
+            {...register("taxMinimum", { required: true})}
           />
         </FormControl>
         <FormControlHours>

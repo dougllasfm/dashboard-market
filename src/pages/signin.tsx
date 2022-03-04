@@ -25,7 +25,7 @@ const signin = () => {
       createUserWithEmailAndPassword(auth, data.email, data.password)
         .then(async (userCredential) => {
           const user = userCredential.user;
-          setCookie(undefined, "market.token", user.accessToken, {
+          setCookie(undefined, "market.token", user.uid, {
             maxAge: 60 * 60, // 1 HOUR
           });
           await setDoc(
@@ -53,27 +53,27 @@ const signin = () => {
         <Input
           placeholder="Email"
           type="text"
-          {...(register("email"), { required: true })}
+          {...register("email", { required: true })}
         />
         <Input
           placeholder="Senha"
           type="password"
-          {...(register("password"), { required: true })}
+          {...register("password", { required: true })}
         />
         <Input
           placeholder="Nome da empresa"
           type="text"
-          {...(register("nameCompany"), { required: true })}
+          {...register("nameCompany", { required: true })}
         />
         <Input
           placeholder="Endereço"
           type="text"
-          {...(register("addressCompany"), { required: true })}
+          {...register("addressCompany", { required: true })}
         />
         <Input
           placeholder="Chave de acesso fornecida"
           type="text"
-          {...(register("keyAcess"), { required: true })}
+          {...register("keyAcess", { required: true })}
         />
         <button onClick={handleSubmit(handleSignIn)}>Criar conta</button>
         <Link href="/">Já tenho uma conta</Link>

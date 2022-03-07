@@ -17,24 +17,25 @@ type FormData = {
 
 const signin = () => {
   const { register, handleSubmit } = useForm<FormData>();
-  const db = getFirestore();
-  const auth = getAuth();
 
   async function handleSignIn(data: FormData) {
     try {
+      const db = getFirestore();
+      const auth = getAuth();
       createUserWithEmailAndPassword(auth, data.email, data.password)
         .then(async (userCredential) => {
           const user = userCredential.user;
           setCookie(undefined, "market.token", user.uid, {
             maxAge: 60 * 60, // 1 HOUR
           });
-          await setDoc(
-            doc(db, "companys", "id-" + data.nameCompany.replaceAll(/ /g, "")),
-            {
-              nameCompany: data.nameCompany,
-              addressCompany: data.addressCompany,
-            }
-          );
+          await setDoc(doc(db, "Companys", data.email, "datasCompany", "Company"), {
+            email: data.email,
+            nameCompany: data.nameCompany,
+            addressCompany: data.addressCompany,
+          });
+          setCookie(undefined, "market.email", data.email, {
+            maxAge: 60 * 60, // 1 HOUR
+          });
           Router.push("/dashboard");
         })
         .catch((error) => {

@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-import useAuth from "../../hooks/useAuth";
 
 import Layout from "../../components/Layout";
 
@@ -52,6 +51,7 @@ const Products = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "market.token": token } = parseCookies(ctx);
+  const { "market.email": tokenEmail } = parseCookies(ctx);
   if (!token) {
     return {
       redirect: {
@@ -64,7 +64,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const db = getFirestore();
   let data: ProductProps[] = [];
   async function getDatas() {
-    const query = await getDocs(collection(db, "products"));
+    const query = await getDocs(
+      collection(db, "Companys/"+tokenEmail+"/products")
+    );
     query.forEach((doc) => {
       data.push(doc.data() as ProductProps);
     });

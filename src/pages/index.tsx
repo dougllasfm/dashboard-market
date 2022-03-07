@@ -14,13 +14,12 @@ type FormData = {
 };
 
 const Login: NextPage = () => {
-  const { signIn, dataCompany } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const { register, handleSubmit } = useForm<FormData>();
 
   async function handleLogin(data: FormData) {
     try {
-      dataCompany({ email: data.email });
       await signIn(data);
     } catch (error) {
       console.log(error);

@@ -10,14 +10,9 @@ import {
 import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 
-type Company = {
-  email: string;
-};
-
 type AuthContextType = {
   signIn: (data: SignInData) => Promise<void>;
   logout: () => Promise<void>;
-  dataCompany: (data: Company) => void;
 };
 
 type AuthContextProviderProps = {
@@ -41,6 +36,9 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
         setCookie(undefined, "market.token", user.uid, {
           maxAge: 60 * 60, // 1 HOUR
         });
+        setCookie(undefined, "market.email", email, {
+          maxAge: 60 * 60, // 1 HOUR
+        });
 
         Router.push("/dashboard");
       })
@@ -62,20 +60,8 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       });
   }
 
-  async function dataCompany({ email }: Company) {
-    const db = getFirestore();
-    const companyRef = collection(db, "companys");
-    const q = query(companyRef, where("email", "==", email));
-    const result = await getDocs(q);
-    result.forEach((doc) => {
-      setCookie(undefined, "market.email", doc.data().email, {
-        maxAge: 60 * 60, // 1 HOUR
-      });
-    });
-  }
-
   return (
-    <AuthContext.Provider value={{ signIn, logout, dataCompany }}>
+    <AuthContext.Provider value={{ signIn, logout }}>
       {children}
     </AuthContext.Provider>
   );

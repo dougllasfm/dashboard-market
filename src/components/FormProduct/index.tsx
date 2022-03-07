@@ -1,7 +1,8 @@
 import Router from "next/router";
-import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { setDoc, doc, getFirestore } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, Input } from "./styles";
+import { parseCookies } from "nookies";
 
 type FormData = {
   nameProduct: string
@@ -14,11 +15,12 @@ type FormData = {
 function FormProduct() {
   const { register, handleSubmit } = useForm<FormData>();
   
-  const db = getFirestore();
-
+  
   async function submitForm(data: FormData) {
     try {
-      await addDoc(collection(db, "products"), {
+      const { "market.email": token } = parseCookies();
+      const db = getFirestore();
+      await setDoc(doc(db, "Companys", token, "products", data.nameProduct), {
         name: data.nameProduct,
         quantity: data.quantity,
         price: data.price,

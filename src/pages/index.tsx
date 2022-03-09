@@ -1,10 +1,10 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { parseCookies } from "nookies";
-import { useContext } from "react";
+import { parseCookies, setCookie } from "nookies";
+import Router from "next/router";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../contexts/AuthContext";
 import Link from "next/link";
+import axios from "axios"
 
 import { Container, Content, Form, Input } from "../styles/pages/login";
 
@@ -14,13 +14,17 @@ type FormData = {
 };
 
 const Login: NextPage = () => {
-  const { signIn } = useContext(AuthContext);
-
   const { register, handleSubmit } = useForm<FormData>();
 
   async function handleLogin(data: FormData) {
-    try {
-      await signIn(data);
+    try {      
+      const company = await axios.post("http://localhost:3060/authenticate", data);
+      if (company.data.token) {
+        setCookie(undefined, "market.token", company.data.token, {
+          maxAge: 60 * 60, // 1 HOUR
+        });
+        Router.push("/dashboard")
+      }
     } catch (error) {
       console.log(error);
     }

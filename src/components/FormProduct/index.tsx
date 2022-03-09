@@ -1,14 +1,15 @@
 import Router from "next/router";
-import { setDoc, doc, getFirestore } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, Input } from "./styles";
 import { parseCookies } from "nookies";
+import axios from "axios";
 
 type FormData = {
-  nameProduct: string
+  name: string
   quantity: string
   price: string
   weight: string
+  category: string
   description: string
 }
 
@@ -18,15 +19,8 @@ function FormProduct() {
   
   async function submitForm(data: FormData) {
     try {
-      const { "market.email": token } = parseCookies();
-      const db = getFirestore();
-      await setDoc(doc(db, "Companys", token, "products", data.nameProduct), {
-        name: data.nameProduct,
-        quantity: data.quantity,
-        price: data.price,
-        weight: data.weight,
-        description: data.description,
-      });
+      const res = await axios.post("http://localhost:3060/createProduct", data)
+      console.log(res)
       Router.push("/products")
     } catch (error) {
       console.log("ERRO: " + error);
@@ -40,7 +34,7 @@ function FormProduct() {
           small={false}
           type="text"
           placeholder="Nome do produto"
-          {...register("nameProduct")}
+          {...register("name")}
         />
         <Input
           small
@@ -62,6 +56,12 @@ function FormProduct() {
           type="text"
           placeholder="Peso"
           {...register("weight")}
+        />
+        <Input
+          small={false}
+          type="text"
+          placeholder="Categoria"
+          {...register("category")}
         />
       </FormControl>
       <FormControl>

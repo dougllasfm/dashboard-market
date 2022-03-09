@@ -1,12 +1,4 @@
 import { createContext, ReactNode } from "react";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
 import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 

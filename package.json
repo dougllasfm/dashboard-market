@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "chart.js": "^3.7.1",
-    "firebase": "^9.6.7",
     "next": "12.1.0",
     "nookies": "^2.5.2",
     "react": "17.0.2",

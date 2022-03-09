@@ -1,19 +1,20 @@
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 import Layout from "../../components/Layout";
 
 import { Container, Icon, Table } from "../../styles/pages/products";
 import { parseCookies } from "nookies";
+import axios from "axios";
 
 type ProductProps = {
+  id: number
   name: string;
   price: string;
   quantity: string;
 };
 
-const Products = ({ data }) => {
+const Products = ({data}) => {
   return (
     <Layout>
       <Container>
@@ -33,14 +34,14 @@ const Products = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((item) => {
+            {data.map((element: ProductProps) => {
               return (
-                <tr key={item.name}>
-                  <td>{item.name}</td>
-                  <td>R$ {item.price}</td>
-                  <td>{item.quantity}</td>
+                <tr key={element.id}>
+                  <td>{element.name}</td>
+                  <td>{element.price}</td>
+                  <td>{element.quantity}</td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </Table>
@@ -50,32 +51,9 @@ const Products = ({ data }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { "market.token": token } = parseCookies(ctx);
-  const { "market.email": tokenEmail } = parseCookies(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  const db = getFirestore();
-  let data: ProductProps[] = [];
-  async function getDatas() {
-    const query = await getDocs(
-      collection(db, "Companys/"+tokenEmail+"/products")
-    );
-    query.forEach((doc) => {
-      data.push(doc.data() as ProductProps);
-    });
-    return data;
-  }
-  data.push(JSON.stringify(await getDatas()));
-  data.pop();
+  const res = await axios.get("http://localhost:3060/products")
   return {
-    props: { data },
+    props: { data: res.data},
   };
 };
 

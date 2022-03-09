@@ -1,18 +1,20 @@
 import { useForm } from "react-hook-form";
-import { doc, setDoc, getFirestore } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { setCookie } from "nookies";
 import Router from "next/router";
 import Link from "next/link";
+import axios from "axios"
 
 import { Container, Content, Input } from "../styles/pages/signin";
 
 type FormData = {
   email: string;
   password: string;
-  nameCompany: string;
-  addressCompany: string;
-  keyAcess: string;
+  name: string;
+  address: string;
+  taxMinimum: string
+  buyMinimum: string
+  hourOpen: string
+  hourClosed: string
 };
 
 const signin = () => {
@@ -20,28 +22,8 @@ const signin = () => {
 
   async function handleSignIn(data: FormData) {
     try {
-      const db = getFirestore();
-      const auth = getAuth();
-      createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then(async (userCredential) => {
-          const user = userCredential.user;
-          setCookie(undefined, "market.token", user.uid, {
-            maxAge: 60 * 60, // 1 HOUR
-          });
-          await setDoc(doc(db, "Companys", data.email, "datasCompany", "Company"), {
-            email: data.email,
-            nameCompany: data.nameCompany,
-            addressCompany: data.addressCompany,
-          });
-          setCookie(undefined, "market.email", data.email, {
-            maxAge: 60 * 60, // 1 HOUR
-          });
-          Router.push("/dashboard");
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          console.log(errorMessage);
-        });
+      const res = await axios.post("http://localhost:3060/createCompany", data)
+      console.log(res)
     } catch (error) {
       console.log("ERRO: " + error);
     }
@@ -64,17 +46,32 @@ const signin = () => {
         <Input
           placeholder="Nome da empresa"
           type="text"
-          {...register("nameCompany", { required: true })}
+          {...register("name", { required: true })}
         />
         <Input
           placeholder="Endereço"
           type="text"
-          {...register("addressCompany", { required: true })}
+          {...register("address", { required: true })}
         />
         <Input
-          placeholder="Chave de acesso fornecida"
+          placeholder="Taxa minima"
           type="text"
-          {...register("keyAcess", { required: true })}
+          {...register("taxMinimum", { required: true })}
+        />
+        <Input
+          placeholder="Compra minima"
+          type="text"
+          {...register("buyMinimum", { required: true })}
+        />
+        <Input
+          placeholder="Hora que abre"
+          type="text"
+          {...register("hourOpen", { required: true })}
+        />
+        <Input
+          placeholder="Hora que fecha"
+          type="text"
+          {...register("hourClosed", { required: true })}
         />
         <button onClick={handleSubmit(handleSignIn)}>Criar conta</button>
         <Link href="/">Já tenho uma conta</Link>

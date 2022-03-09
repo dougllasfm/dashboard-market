@@ -1,10 +1,3 @@
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getFirestore,
-} from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
 import { parseCookies } from "nookies";
 import ConfigCompany from "../components/ConfigCompany";

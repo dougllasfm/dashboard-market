@@ -20,9 +20,8 @@ const Login: NextPage = () => {
     try {      
       const company = await axios.post("http://localhost:3060/authenticate", data);
       if (company.data.token) {
-        setCookie(undefined, "market.token", company.data.token, {
-          maxAge: 60 * 60, // 1 HOUR
-        });
+        setCookie(undefined, "market.token", company.data.token);
+        setCookie(undefined, "market.refreshToken", company.data.refreshToken.id);
         Router.push("/dashboard")
       }
     } catch (error) {

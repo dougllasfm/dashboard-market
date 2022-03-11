@@ -53,7 +53,7 @@ const Products = ({data}) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const res = await axios.get("http://localhost:3060/products")
   return {
-    props: { data: res.data},
+    props: { data: res.data },
   };
 };
 

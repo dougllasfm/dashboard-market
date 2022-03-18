@@ -74,3 +74,61 @@ export const Input = styled.input`
   color: #000;
   border-radius: 3px;
 `;
+
+export const Notification = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #2fd072;
+  color: #fff;
+  width: 340px;
+  height: 60px;
+  border-radius: 3px;
+  font-size: 18px;
+
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.4s ease-in;
+  animation: fadeout 5s ease-in;
+  -moz-animation: fadeout 5s ease-in; /* Firefox */
+  -webkit-animation: fadeout 5s ease-in; /* Safari and Chrome */
+  -o-animation: fadeout 5s ease-in; /* Opera */
+  @keyframes fadeout {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @-moz-keyframes fadeout {
+    /* Firefox */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes fadeout {
+    /* Safari and Chrome */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @-o-keyframes fadeout {
+    /* Opera */
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+`;

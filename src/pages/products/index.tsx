@@ -18,7 +18,7 @@ const Products = () => {
     const response = await axios.get("http://localhost:3060/products");
     return response.data;
   }, {
-    staleTime: 1000 * 60, // 1 minute
+    staleTime: 1000 * 30, // 30 seconds
   })
 
   return (

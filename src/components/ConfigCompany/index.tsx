@@ -1,15 +1,14 @@
-import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import {
   Container,
   Form,
   FormControl,
   FormControlHours,
   Input,
-  Notification,
+  Notification
 } from "./styles";
+
 
 type FormData = {
   nameCompany: string;
@@ -24,13 +23,6 @@ function ConfigCompany() {
   const [concluded, setConcluded] = useState<boolean>(false);
   const [company, setCompany] = useState<FormData>();
   const { register, handleSubmit, resetField } = useForm<FormData>();
-
-  useEffect(() => {
-    getDataCompany();
-  }, []);
-
-  async function getDataCompany() {
-  }
 
   async function updateHour(data: FormData) {
     try {

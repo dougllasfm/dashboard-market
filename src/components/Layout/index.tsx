@@ -1,23 +1,10 @@
-import { ReactNode, useContext, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { destroyCookie } from "nookies";
+import { ReactNode, useState } from "react";
 import ItemMenu from "../ItemMenu";
-
 import {
-  Sidebar,
-  LogoContent,
-  Logo,
-  IconLogo,
-  LogoName,
-  IconMenu,
-  List,
-  Item,
-  ProfileContent,
-  Profile,
-  ProfileDetails,
-  Name,
-  IconLogout,
-  Content,
+  Content, IconLogo, IconLogout, IconMenu, Item, List, Logo, LogoContent, LogoName, Name, Profile, ProfileContent, ProfileDetails, Sidebar
 } from "./styles";
+
 
 interface LayoutProps {
   children: ReactNode;
@@ -25,10 +12,10 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   const [menu, setMenu] = useState<boolean>(true);
-  const { logout } = useContext(AuthContext);
 
   function signOut() {
-    logout();
+    destroyCookie(null, "market.token")
+    destroyCookie(null, "company.token")
   }
 
   return (

@@ -1,12 +1,13 @@
+import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { parseCookies, setCookie } from "nookies";
-import Router from "next/router";
-import { useForm } from "react-hook-form";
 import Link from "next/link";
-import axios from "axios"
+import Router from "next/router";
+import { parseCookies, setCookie } from "nookies";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Container, Content, Form, Input, Notification } from "../styles/pages/login";
 
-import { Container, Content, Form, Input } from "../styles/pages/login";
 
 type FormData = {
   email: string;
@@ -14,18 +15,20 @@ type FormData = {
 };
 
 const Login: NextPage = () => {
+  const [errorLogin, setErrorLogin] = useState<boolean>(false)
   const { register, handleSubmit } = useForm<FormData>();
 
   async function handleLogin(data: FormData) {
     try {      
+      setErrorLogin(false)
       const company = await axios.post("http://localhost:3060/authenticate", data);
       if (company.data.token) {
         setCookie(undefined, "market.token", company.data.token);
-        setCookie(undefined, "market.refreshToken", company.data.refreshToken.id);
+        setCookie(undefined, "company.token", company.data.companyAlreadyExists.id);
         Router.push("/dashboard")
       }
     } catch (error) {
-      console.log(error);
+      setErrorLogin(true)
     }
   }
 
@@ -52,6 +55,10 @@ const Login: NextPage = () => {
           </Form>
           <Link href="/signin">Criar conta</Link>
         </Content>
+        {errorLogin && <Notification>
+          <p>Nome de usuário ou senha incorretos!</p>
+        </Notification>}
+        
       </Container>
     </>
   );

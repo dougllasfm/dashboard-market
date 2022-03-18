@@ -20,7 +20,8 @@ const signin = () => {
 
   async function handleSignIn(data: FormData) {
     try {
-      await axios.post("http://localhost:3060/createCompany", data);
+      console.log("aqui")
+      const res = await axios.post("http://localhost:3060/createCompany", data);
       Router.push("/");
     } catch (error) {
       console.log("ERRO: " + error);

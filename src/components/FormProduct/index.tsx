@@ -1,16 +1,17 @@
+import axios from "axios";
 import Router from "next/router";
+import { parseCookies } from "nookies";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, Input } from "./styles";
-import { parseCookies } from "nookies";
-import axios from "axios";
 
 type FormData = {
   name: string
-  quantity: string
+  quantity: number
   price: string
   weight: string
   category: string
   description: string
+  companyId: number
 }
 
 function FormProduct() {
@@ -19,8 +20,10 @@ function FormProduct() {
   
   async function submitForm(data: FormData) {
     try {
-      const res = await axios.post("http://localhost:3060/createProduct", data)
-      console.log(res)
+      const { "company.token": token } = parseCookies();
+      data.quantity = parseInt(data.quantity as unknown as string)
+      data.companyId = parseInt(token)
+      await axios.post("http://localhost:3060/createProduct", data)
       Router.push("/products")
     } catch (error) {
       console.log("ERRO: " + error);

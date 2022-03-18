@@ -15,7 +15,7 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 70%;
+  height: 90%;
   width: 45%;
   background: var(--primary);
   box-shadow: 3px 3px 10px var(--primary);

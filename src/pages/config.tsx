@@ -3,15 +3,6 @@ import { parseCookies } from "nookies";
 import ConfigCompany from "../components/ConfigCompany";
 import Layout from "../components/Layout";
 
-type FormData = {
-  nameCompany: string;
-  addressCompany: string;
-  buyMinimum: string;
-  taxMinimum: string;
-  hourInitial: string;
-  hourFinal: string;
-};
-
 const Config: NextPage = () => {
   return (
     <Layout>

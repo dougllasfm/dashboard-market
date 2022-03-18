@@ -1,11 +1,10 @@
-import type { GetServerSideProps } from "next";
-import Link from "next/link";
-
-import Layout from "../../components/Layout";
-
-import { Container, Icon, Table } from "../../styles/pages/products";
-import { parseCookies } from "nookies";
 import axios from "axios";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
+import { parseCookies } from "nookies";
+import { useQuery } from "react-query";
+import Layout from "../../components/Layout";
+import { Container, Icon, Table } from "../../styles/pages/products";
 
 type ProductProps = {
   id: number
@@ -14,7 +13,14 @@ type ProductProps = {
   quantity: string;
 };
 
-const Products = ({data}) => {
+const Products = () => {
+  const { data } = useQuery<ProductProps[]>('products', async () => {
+    const response = await axios.get("http://localhost:3060/products");
+    return response.data;
+  }, {
+    staleTime: 1000 * 60, // 1 minute
+  })
+
   return (
     <Layout>
       <Container>
@@ -34,7 +40,7 @@ const Products = ({data}) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((element: ProductProps) => {
+            {data?.map((element: ProductProps) => {
               return (
                 <tr key={element.id}>
                   <td>{element.name}</td>
@@ -51,10 +57,19 @@ const Products = ({data}) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const res = await axios.get("http://localhost:3060/products")
+  const { "market.token": token } = parseCookies(ctx);
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return {
-    props: { data: res.data },
-  };
+    props: {}
+  }
 };
 
 export default Products;

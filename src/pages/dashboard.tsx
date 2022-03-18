@@ -1,18 +1,13 @@
-import React from "react";
+import {
+  BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title,
+  Tooltip
+} from "chart.js";
 import type { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
-import Layout from "../components/Layout";
+import React from "react";
 import { Bar } from "react-chartjs-2";
+import Layout from "../components/Layout";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 
 ChartJS.register(
   CategoryScale,

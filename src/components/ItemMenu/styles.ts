@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
 import { Dashboard } from "@styled-icons/boxicons-solid/Dashboard";
+import { Notepad } from "@styled-icons/boxicons-solid/Notepad";
 import { Settings } from "@styled-icons/evaicons-solid/Settings";
 import { Inventory } from "@styled-icons/material/Inventory";
-import { Notepad } from "@styled-icons/boxicons-solid/Notepad";
+import styled, { css } from "styled-components";
 
 type Props = {
   menu: boolean;
@@ -20,6 +20,10 @@ export const Container = styled.div<Props>`
     font-size: 1.6rem;
     color: #fff;
     display: ${(props) => (props.menu ? "block" : "none")};
+
+    @media (max-width: 690px) {
+      display: none;
+    }
   }
 `;
 

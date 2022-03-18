@@ -1,9 +1,7 @@
-import { useForm } from "react-hook-form";
-import { setCookie } from "nookies";
-import Router from "next/router";
+import axios from "axios";
 import Link from "next/link";
-import axios from "axios"
-
+import Router from "next/router";
+import { useForm } from "react-hook-form";
 import { Container, Content, Input } from "../styles/pages/signin";
 
 type FormData = {
@@ -11,10 +9,10 @@ type FormData = {
   password: string;
   name: string;
   address: string;
-  taxMinimum: string
-  buyMinimum: string
-  hourOpen: string
-  hourClosed: string
+  taxMinimum: string;
+  buyMinimum: string;
+  hourOpen: string;
+  hourClosed: string;
 };
 
 const signin = () => {
@@ -22,8 +20,8 @@ const signin = () => {
 
   async function handleSignIn(data: FormData) {
     try {
-      const res = await axios.post("http://localhost:3060/createCompany", data)
-      console.log(res)
+      await axios.post("http://localhost:3060/createCompany", data);
+      Router.push("/");
     } catch (error) {
       console.log("ERRO: " + error);
     }

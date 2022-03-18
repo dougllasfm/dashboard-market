@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
-import Layout from "../../components/Layout"
-import FormProduct from "../../components/FormProduct"
 import { parseCookies } from "nookies";
+import FormProduct from "../../components/FormProduct";
+import Layout from "../../components/Layout";
 
 const newProduct: NextPage = () => {
   return (

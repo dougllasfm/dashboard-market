@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { ReactLogo } from "@styled-icons/fa-brands/ReactLogo";
-import { LogOut } from "@styled-icons/entypo/LogOut"
 import { Menu } from "@styled-icons/boxicons-regular/Menu";
+import { LogOut } from "@styled-icons/entypo/LogOut";
+import { ReactLogo } from "@styled-icons/fa-brands/ReactLogo";
+import styled from "styled-components";
 
 type Props = {
   menu: boolean  
@@ -17,6 +17,10 @@ export const Sidebar = styled.div<Props>`
   transition: all 0.4s ease;
 
   background-color: var(--primary);
+
+  @media (max-width: 690px) {
+    width: 70px;
+  }
 `;
 
 export const LogoContent = styled.div`
@@ -35,12 +39,20 @@ export const IconLogo = styled(ReactLogo)<Props>`
   height: 3rem;
   margin: 0 0.5rem;
   display: ${(props) => (props.menu ? "flex" : "none")};
+
+  @media (max-width: 690px) {
+    display: none;
+  }
 `;
 
 export const LogoName = styled.div<Props>`
   font-size: 2rem;
   font-weight: 400;
   display: ${(props) => (props.menu ? "flex" : "none")};
+
+  @media (max-width: 690px) {
+    display: none;
+  }
 `;
 
 export const IconMenu = styled(Menu)<Props>`
@@ -49,6 +61,11 @@ export const IconMenu = styled(Menu)<Props>`
   width: 3rem;
   height: 3rem;
   cursor: pointer;
+
+  @media (max-width: 690px) {
+    right: 2rem;
+    cursor: unset;
+  }
 `;
 
 export const List = styled.div`
@@ -117,6 +134,10 @@ export const ProfileDetails = styled.div<Props>`
     object-fit: cover;
     border-radius: 50px;
   }
+
+  @media (max-width: 690px) {
+    display: none;
+  }
 `;
 
 export const Name = styled.div`
@@ -134,6 +155,10 @@ export const IconLogout = styled(LogOut)<Props>`
   &:hover {
     color: #615ba4;
   }
+
+  @media (max-width: 690px) {
+    margin-left: 14px;
+  }
 `;
 
 export const Content = styled.div<Props>`
@@ -143,4 +168,9 @@ export const Content = styled.div<Props>`
   font-size: 1.6rem;
   transition: all 0.4s ease;
   padding: 10px;
+
+  @media (max-width: 690px) {
+    width: calc(100% - 70px);
+    left: 70px;
+  }
 `

@@ -37,5 +37,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {},
   };
 };
-
 export default Config;

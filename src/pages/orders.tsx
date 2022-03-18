@@ -2,11 +2,24 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
+import { useQuery } from "react-query";
 import Layout from "../components/Layout";
-
 import { Container, Table } from "../styles/pages/orders";
 
-const Orders = ({ data }) => {
+type Order = {
+  quantity: number;
+  orderId: number
+  price: string
+}
+
+const Orders = () => {
+  const { data } = useQuery<Order[]>('order', async () => {
+    const response = await axios.get("http://localhost:3060/orders");
+    return response.data;
+  }, {
+    staleTime: 1000 * 60, // 1 minute
+  })
+
   return (
     <>
       <Head>
@@ -24,7 +37,7 @@ const Orders = ({ data }) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((element) => {
+              {data?.map((element) => {
                 return (
                   <tr key={element.orderId}>
                     <td>{element.orderId}</td>
@@ -41,11 +54,20 @@ const Orders = ({ data }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await axios.get("http://localhost:3060/orders");
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "market.token": token } = parseCookies(ctx);
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return {
-    props: { data: res.data },
-  };
+    props: {}
+  }
 };
 
 export default Orders;

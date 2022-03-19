@@ -33,7 +33,7 @@ $ cd dashboard-market
 $ yarn
 
 # Executa o projeto
-$ yarn ddev
+$ yarn dev
 ```
 
 # Autor

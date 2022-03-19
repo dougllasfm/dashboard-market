@@ -26,7 +26,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: "Vendas na última semana (Fictício)",
     },
   },
   

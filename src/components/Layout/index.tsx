@@ -53,8 +53,8 @@ function Layout({ children }: LayoutProps) {
         <ProfileContent>
           <Profile>
             <ProfileDetails menu={menu}>
-              <img src="/profile.jpeg" alt="" />
-              <Name>Douglas munaro</Name>
+              <img src="/profile.jpg" alt="" />
+              <Name>Nome de usuário</Name>
             </ProfileDetails>
             <IconLogout onClick={signOut} menu={menu} />
           </Profile>

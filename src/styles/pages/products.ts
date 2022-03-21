@@ -1,5 +1,5 @@
+import { Plus } from "@styled-icons/bootstrap/Plus";
 import styled from "styled-components";
-import { Plus } from "@styled-icons/bootstrap/Plus"
 
 export const Container = styled.div`
 
@@ -29,13 +29,19 @@ export const Icon = styled(Plus)`
 export const Table = styled.table`
   border-collapse: collapse;
   width: 98%;
-  box-shadow: 2px 2px 10px var(--primary);
+  box-shadow: 3px 8px 30px -10px var(--primary);
+  border-radius: 11px;
 
   td,
   th {
-    border: 1px solid #dfdeed;
     text-align: left;
     padding: 8px;
+    border: none;
+  }
+
+  thead, tbody {
+    border-collapse: collapse;
+    border-radius: 15px;
   }
 
   tr:nth-child(even) {

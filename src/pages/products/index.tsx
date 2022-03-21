@@ -7,19 +7,23 @@ import Layout from "../../components/Layout";
 import { Container, Icon, Table } from "../../styles/pages/products";
 
 type ProductProps = {
-  id: number
+  id: number;
   name: string;
   price: string;
   quantity: string;
 };
 
 const Products = () => {
-  const { data } = useQuery<ProductProps[]>('products', async () => {
-    const response = await axios.get("http://localhost:3060/products");
-    return response.data;
-  }, {
-    staleTime: 1000 * 30, // 30 seconds
-  })
+  const { data } = useQuery<ProductProps[]>(
+    "products",
+    async () => {
+      const response = await axios.get("http://localhost:3060/products");
+      return response.data;
+    },
+    {
+      staleTime: 1000 * 30, // 30 seconds
+    }
+  );
 
   return (
     <Layout>
@@ -47,7 +51,7 @@ const Products = () => {
                   <td>{element.price}</td>
                   <td>{element.quantity}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </Table>
@@ -58,7 +62,7 @@ const Products = () => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "market.token": token } = parseCookies(ctx);
-  
+
   if (!token) {
     return {
       redirect: {

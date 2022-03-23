@@ -15,7 +15,7 @@ type FormData = {
 }
 
 function FormProduct() {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   
   
   async function submitForm(data: FormData) {
@@ -37,14 +37,16 @@ function FormProduct() {
           small={false}
           type="text"
           placeholder="Nome do produto"
-          {...register("name")}
+          {...register("name", { required: true})}
+          { ...errors.name && "Nome obrigatório" }
         />
         <Input
           small
           type="number"
           placeholder="Quantidade"
           min={0}
-          {...register("quantity")}
+          {...register("quantity", { required: true})}
+          { ...errors.quantity && "Quantidade obrigatória"}
         />
       </FormControl>
       <FormControl>
@@ -52,19 +54,22 @@ function FormProduct() {
           small
           type="text"
           placeholder="Preço"
-          {...register("price")}
+          {...register("price", { required: true })}
+          { ...errors.price && "Quantidade obrigatória"}
         />
         <Input
           small
           type="text"
           placeholder="Peso"
-          {...register("weight")}
+          {...register("weight", { required: true })}
+          { ...errors.weight && "Quantidade obrigatória"}
         />
         <Input
           small={false}
           type="text"
           placeholder="Categoria"
-          {...register("category")}
+          {...register("category", { required: true })}
+          { ...errors.category && "Quantidade obrigatória"}
         />
       </FormControl>
       <FormControl>

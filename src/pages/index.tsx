@@ -6,8 +6,13 @@ import Router from "next/router";
 import { parseCookies, setCookie } from "nookies";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Container, Content, Form, Input, Notification } from "../styles/pages/login";
-
+import {
+  Container,
+  Content,
+  Form,
+  Input,
+  Notification
+} from "../styles/pages/login";
 
 type FormData = {
   email: string;
@@ -15,20 +20,31 @@ type FormData = {
 };
 
 const Login: NextPage = () => {
-  const [errorLogin, setErrorLogin] = useState<boolean>(false)
-  const { register, handleSubmit } = useForm<FormData>();
+  const [errorLogin, setErrorLogin] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
   async function handleLogin(data: FormData) {
-    try {      
-      setErrorLogin(false)
-      const company = await axios.post("http://localhost:3060/authenticate", data);
+    try {
+      setErrorLogin(false);
+      const company = await axios.post(
+        "http://localhost:3060/authenticate",
+        data
+      );
       if (company.data.token) {
         setCookie(undefined, "market.token", company.data.token);
-        setCookie(undefined, "company.token", company.data.companyAlreadyExists.id);
-        Router.push("/dashboard")
+        setCookie(
+          undefined,
+          "company.token",
+          company.data.companyAlreadyExists.id
+        );
+        Router.push("/dashboard");
       }
     } catch (error) {
-      setErrorLogin(true)
+      setErrorLogin(true);
     }
   }
 
@@ -44,21 +60,24 @@ const Login: NextPage = () => {
             <Input
               placeholder="Email"
               type="text"
-              {...register("email", { required: true})}
+              {...register("email", { required: true })}
             />
+            {errors.email && <span>Email é obrigatório</span>}
             <Input
               placeholder="Senha"
               type="password"
-              {...register("password", { required: true})}
+              {...register("password", { required: true })}
             />
+            {errors.password && <span>Senha obrigatória</span>}
             <button type="submit">Entrar</button>
           </Form>
           <Link href="/signin">Criar conta</Link>
         </Content>
-        {errorLogin && <Notification>
-          <p>Nome de usuário ou senha incorretos!</p>
-        </Notification>}
-        
+        {errorLogin && (
+          <Notification>
+            <p>Nome de usuário ou senha incorretos!</p>
+          </Notification>
+        )}
       </Container>
     </>
   );

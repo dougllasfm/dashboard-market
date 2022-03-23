@@ -46,6 +46,13 @@ export const Form = styled.form`
   justify-content: center;
   width: 100%;
 
+  > span {
+    font-size: 12px;
+    color: var(--red);
+    line-height: 18px;
+    margin: 5px 0;
+  }
+
   > button {
     margin-top: 6px;
     background: var(--white);
